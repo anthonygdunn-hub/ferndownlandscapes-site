@@ -706,10 +706,10 @@ $('#qf').onsubmit=function(e){e.preventDefault();var n=$('#q-name').value.trim()
  if(d.Email!=='Not given')d._replyto=d.Email;
  var btn=this.querySelector('[type=submit]');btn.disabled=true;btn.textContent='Sending...';
  var done=function(ok){btn.disabled=false;btn.textContent='Send my request';
-  if(ok){$('#q-who').textContent=n.split(' ')[0];go(4);return}
+  if(ok){err.style.display='none';$('#q-who').textContent=n.split(' ')[0];go(4);return}
   var txt='Quote request: '+n+', '+t+', '+p+'. '+sv+'. '+d.Details;
   err.style.display='block';err.innerHTML='Sorry, that didn\'t send. Please <a href="https://wa.me/447799660413?text='+encodeURIComponent(txt)+'" style="font-weight:700">send it on WhatsApp</a> or call Dan on <a href="tel:07799660413" style="font-weight:700">07799 660413</a>.'};
- var fin=false,once=function(ok){if(fin)return;fin=true;done(ok)};setTimeout(function(){once(false)},15000);fetch('https://formsubmit.co/ajax/dan@ferndownlandscapes.co.uk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){once(j&&(j.success===true||j.success==='true'))}).catch(function(){once(false)})};
+ var fin=false,once=function(ok){if(fin)return;fin=true;done(ok)};setTimeout(function(){if(!fin){btn.textContent='Still sending…';err.style.display='block';err.innerHTML='Taking a little longer than usual. Please keep this page open, or <a href="https://wa.me/447799660413" style="font-weight:700">message Dan on WhatsApp</a> instead.'}},15000);setTimeout(function(){once(false)},75000);fetch('https://formsubmit.co/ajax/dan@ferndownlandscapes.co.uk',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){once(j&&(j.success===true||j.success==='true'))}).catch(function(){once(false)})};
 $$('.svc-grid').forEach(function(g){g.addEventListener('click',function(){})});
 
 // service detail
